@@ -46,15 +46,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       (config) => {
         const currentToken = localStorage.getItem('token');
         if (currentToken) {
-          config.headers.Authorization = `Bearer ${currentToken}`;
+          // Ensure headers object exists
+          if (!config.headers) {
+            config.headers = {};
+          }
+          // Use array notation to ensure it works
+          config.headers['Authorization'] = `Bearer ${currentToken}`;
+          console.log('[Interceptor] Added token to request:', config.url);
+        } else {
+          console.log('[Interceptor] No token in localStorage for request:', config.url);
         }
         return config;
       },
       (error) => Promise.reject(error)
     );
 
+    console.log('[AuthContext] Request interceptor installed');
+
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
+      console.log('[AuthContext] Request interceptor removed');
     };
   }, []);
 
