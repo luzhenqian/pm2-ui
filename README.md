@@ -95,7 +95,8 @@ Run Prisma migrations to set up the database schema:
 
 ```bash
 cd server
-npx prisma migrate dev
+npx prisma migrate deploy
+cd ..
 ```
 
 This will create the necessary database tables for user authentication and management.
