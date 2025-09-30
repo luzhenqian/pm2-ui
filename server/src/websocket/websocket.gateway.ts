@@ -10,7 +10,6 @@ import {
 import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { OnEvent } from '@nestjs/event-emitter';
-import { LogService } from '../logs/log.service';
 import { Pm2Service } from '../process/pm2.service';
 import {
   SubscribeLogsDto,
@@ -20,12 +19,11 @@ import {
   ProcessInfo,
   ProcessMetrics,
 } from '../common/interfaces/process.interface';
-import * as config from '../config/config.json';
 
 @WSGateway({
   cors: {
-    origin: config.server.cors.origins,
-    methods: config.server.cors.methods,
+    origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['*'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   },
 })
 export class WebSocketGateway
