@@ -21,21 +21,24 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
-    this.logger.debug(`Validating JWT payload for user: ${payload.sub}`);
+    this.logger.log(`[JWT] Validating JWT payload for user: ${payload.sub}`);
+    this.logger.log(`[JWT] Payload: ${JSON.stringify(payload)}`);
 
     const user = await this.userService.findById(payload.sub);
     if (!user) {
-      this.logger.warn(`User not found: ${payload.sub}`);
+      this.logger.error(`[JWT] User not found: ${payload.sub}`);
       throw new UnauthorizedException('User not found');
     }
 
+    this.logger.log(`[JWT] User found: ${user.username}, status: ${user.status}, role: ${user.role}`);
+
     if (user.status !== 'approved') {
-      this.logger.warn(`User not approved: ${payload.sub}, status: ${user.status}`);
+      this.logger.error(`[JWT] User not approved: ${payload.sub}, status: ${user.status}`);
       throw new UnauthorizedException('User not approved');
     }
 
     const { password, ...result } = user;
-    this.logger.debug(`JWT validation successful for user: ${user.username}`);
+    this.logger.log(`[JWT] Validation successful for user: ${user.username}`);
     return result;
   }
 }
