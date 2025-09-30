@@ -49,31 +49,63 @@ npm run install:all
 
 This will install dependencies for both the server and client applications.
 
-### 3. Configuration
+### 3. Setup Database
 
-Copy the example configuration files:
+Start PostgreSQL database using Docker Compose:
 
 ```bash
-cp config.json.example config.json
+cd server
+docker-compose up -d
+```
+
+This will start a PostgreSQL database on port 5433.
+
+### 4. Configuration
+
+Copy the environment file and configure it:
+
+```bash
 cp server/.env.example server/.env
 ```
 
-Edit `config.json` to customize your settings:
+Edit `server/.env` to customize your settings:
 
-```json
-{
-  "server": {
-    "port": 3030,
-    "host": "0.0.0.0"
-  },
-  "logs": {
-    "maxLines": 1000,
-    "initialLines": 100
-  }
-}
+```env
+# Database Configuration
+DATABASE_URL="postgresql://pm2ui:pm2ui_password@localhost:5433/pm2ui_db?schema=public"
+
+# JWT Configuration
+JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
+JWT_EXPIRES_IN="24h"
+
+# Server Configuration
+NODE_ENV=development
+PORT=3030
+HOST=0.0.0.0
 ```
 
+**Important:** Change the `JWT_SECRET` to a secure random string in production.
+
+### 5. Initialize Database
+
+Run Prisma migrations to set up the database schema:
+
+```bash
+cd server
+npx prisma migrate dev
+```
+
+This will create the necessary database tables for user authentication and management.
+
 ## Usage
+
+### Default Login Credentials
+
+On first run, a default super admin account is created:
+- **Username:** `admin`
+- **Password:** `admin123`
+
+**Important:** Change the default password immediately after first login!
 
 ### Development Mode
 
@@ -85,7 +117,7 @@ npm run dev
 
 This will start:
 - Backend server on http://localhost:3030
-- Frontend dev server on http://localhost:3000
+- Frontend dev server on http://localhost:5174 (Vite default)
 
 ### Production Mode
 
