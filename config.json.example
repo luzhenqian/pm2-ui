@@ -1,0 +1,43 @@
+{
+  "server": {
+    "port": 3030,
+    "host": "0.0.0.0",
+    "cors": {
+      "enabled": true,
+      "origins": ["*"],
+      "methods": ["GET", "POST"]
+    }
+  },
+  "logs": {
+    "maxLines": 1000,
+    "initialLines": 100,
+    "tailBufferSize": 100,
+    "refreshInterval": 30000
+  },
+  "websocket": {
+    "reconnectInterval": 3000,
+    "maxReconnectAttempts": 10,
+    "pingInterval": 25000,
+    "pingTimeout": 60000
+  },
+  "monitoring": {
+    "enableMetrics": true,
+    "metricsInterval": 5000
+  },
+  "ui": {
+    "theme": "dark",
+    "maxLogEntries": 1000,
+    "enableAutoScroll": true,
+    "highlightPatterns": {
+      "error": ["ERROR", "FATAL", "Exception", "Error"],
+      "warning": ["WARN", "WARNING"],
+      "info": ["INFO"],
+      "debug": ["DEBUG"]
+    }
+  },
+  "security": {
+    "enableAuth": false,
+    "authToken": "",
+    "allowedProcesses": []
+  }
+}

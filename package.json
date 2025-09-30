@@ -1,0 +1,55 @@
+{
+  "name": "pm2-ui",
+  "version": "1.0.0",
+  "description": "A modern web-based management interface for PM2 with real-time monitoring, process control, and log viewing",
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/pm2-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/pm2-ui/issues"
+  },
+  "homepage": "https://github.com/yourusername/pm2-ui#readme",
+  "keywords": [
+    "pm2",
+    "pm2-ui",
+    "process-manager",
+    "monitoring",
+    "dashboard",
+    "real-time",
+    "websocket",
+    "logs",
+    "viewer",
+    "nodejs",
+    "nestjs",
+    "react",
+    "typescript",
+    "management",
+    "devops"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm run start",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "cd server && npm test",
+    "test:client": "cd client && npm test",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "cd server && npm run lint",
+    "lint:client": "cd client && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
+}

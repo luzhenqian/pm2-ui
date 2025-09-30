@@ -1,0 +1,53 @@
+# Development files
+*.md
+!README.md
+.gitignore
+.npmignore
+
+# Source files
+client/src/
+server/src/
+server/test/
+
+# Configuration
+.env
+.env.*
+config.json
+!config.json.example
+
+# Build tools
+*.config.js
+*.config.ts
+tsconfig*.json
+.eslintrc.js
+.prettierrc
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.github/
+
+# Dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# CI/CD
+.github/
+
+# Misc
+.DS_Store
