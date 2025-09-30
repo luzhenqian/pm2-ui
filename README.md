@@ -37,7 +37,7 @@ A modern, real-time web-based management interface for PM2 processes with compre
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/pm2-ui.git
+git clone git@github.com:luzhenqian/pm2-ui.git
 cd pm2-ui
 ```
 
