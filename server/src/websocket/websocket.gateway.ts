@@ -10,6 +10,7 @@ import {
 import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { OnEvent } from '@nestjs/event-emitter';
+import { LogService } from '../logs/log.service';
 import { Pm2Service } from '../process/pm2.service';
 import {
   SubscribeLogsDto,
@@ -79,7 +80,7 @@ export class WebSocketGateway
 
       const recentLogs = await this.logService.getRecentLogs(
         logPath,
-        config.logs.initialLines,
+        parseInt(process.env.INITIAL_LOG_LINES || '100', 10),
       );
       client.emit('initial-logs', recentLogs);
 
