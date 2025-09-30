@@ -51,14 +51,17 @@ This will install dependencies for both the server and client applications.
 
 ### 3. Setup Database
 
-Start PostgreSQL database using Docker Compose:
+Start PostgreSQL database using Docker Compose (must run from server directory):
 
 ```bash
 cd server
 docker-compose up -d
+cd ..
 ```
 
 This will start a PostgreSQL database on port 5433.
+
+> **Note:** Make sure you're in the `server` directory when running `docker-compose up -d`
 
 ### 4. Configuration
 
