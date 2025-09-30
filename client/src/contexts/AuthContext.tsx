@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 import { api } from '@/services/api';
 
 interface User {
@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (currentToken) {
           // Ensure headers object exists
           if (!config.headers) {
-            config.headers = {};
+            config.headers = new AxiosHeaders();
           }
           // Use array notation to ensure it works
           config.headers['Authorization'] = `Bearer ${currentToken}`;
