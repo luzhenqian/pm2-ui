@@ -53,6 +53,9 @@
     "pm2:monit": "pm2 monit",
     "deploy": "npm run build && npm run pm2:restart"
   },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2"
   },

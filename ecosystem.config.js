@@ -1,3 +1,15 @@
+const { config } = require('dotenv');
+const { resolve } = require('path');
+
+// Load environment variables from server/.env
+const envPath = resolve(__dirname, 'server', '.env');
+const envConfig = config({ path: envPath });
+
+if (envConfig.error) {
+  console.warn(`Warning: Could not load .env file from ${envPath}`);
+  console.warn('Make sure server/.env exists with required configuration');
+}
+
 module.exports = {
   apps: [
     {
@@ -9,11 +21,16 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '500M',
-      env_file: './server/.env',
       env: {
-        NODE_ENV: 'production',
-        PORT: 3030,
-        HOST: '0.0.0.0',
+        NODE_ENV: process.env.NODE_ENV || 'production',
+        PORT: process.env.PORT || 3030,
+        HOST: process.env.HOST || '0.0.0.0',
+        DATABASE_URL: process.env.DATABASE_URL,
+        JWT_SECRET: process.env.JWT_SECRET,
+        JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '24h',
+        LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+        CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
+        INITIAL_LOG_LINES: process.env.INITIAL_LOG_LINES || '100',
       },
       env_production: {
         NODE_ENV: 'production',
