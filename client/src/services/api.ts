@@ -41,4 +41,9 @@ export const api = {
     const response = await axios.get(`${API_BASE}/health`);
     return response.data;
   },
+
+  changePassword: async (newPassword: string): Promise<any> => {
+    const response = await axios.post(`${API_BASE}/auth/change-password`, { newPassword });
+    return response.data;
+  },
 };

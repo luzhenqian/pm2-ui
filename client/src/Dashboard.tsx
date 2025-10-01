@@ -6,6 +6,7 @@ import { ProcessList } from '@/components/ProcessList';
 import { LogViewer } from '@/components/LogViewer';
 import { MetricsPanel } from '@/components/MetricsPanel';
 import { StatusBar } from '@/components/StatusBar';
+import { ChangePasswordDialog } from '@/components/ChangePasswordDialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -204,6 +205,10 @@ function Dashboard() {
                 <DropdownMenuItem disabled>
                   <Mail className="mr-2 h-4 w-4" />
                   {user?.email}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <ChangePasswordDialog />
                 </DropdownMenuItem>
                 {(user?.role === 'super_admin' || user?.role === 'admin') && (
                   <>
