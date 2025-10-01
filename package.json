@@ -43,7 +43,15 @@
     "test:client": "cd client && npm test",
     "lint": "npm run lint:server && npm run lint:client",
     "lint:server": "cd server && npm run lint",
-    "lint:client": "cd client && npm run lint"
+    "lint:client": "cd client && npm run lint",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop pm2-ui",
+    "pm2:restart": "pm2 restart pm2-ui",
+    "pm2:reload": "pm2 reload pm2-ui",
+    "pm2:delete": "pm2 delete pm2-ui",
+    "pm2:logs": "pm2 logs pm2-ui",
+    "pm2:monit": "pm2 monit",
+    "deploy": "npm run build && npm run pm2:restart"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

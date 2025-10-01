@@ -139,6 +139,98 @@ npm start
 
 Access the application at http://localhost:3030
 
+## PM2 Deployment
+
+PM2 UI includes built-in PM2 configuration for production deployment.
+
+### Initial Setup
+
+1. **Install PM2 globally** (if not already installed):
+
+```bash
+npm install -g pm2
+```
+
+2. **Build the application**:
+
+```bash
+npm run build
+```
+
+3. **Start with PM2**:
+
+```bash
+npm run pm2:start
+```
+
+This will start the application using the `ecosystem.config.js` configuration file.
+
+### PM2 Management Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run pm2:start` | Start the application with PM2 |
+| `npm run pm2:stop` | Stop the application |
+| `npm run pm2:restart` | Restart the application (with downtime) |
+| `npm run pm2:reload` | Reload the application (zero-downtime) |
+| `npm run pm2:delete` | Remove the application from PM2 |
+| `npm run pm2:logs` | View application logs |
+| `npm run pm2:monit` | Monitor application metrics |
+| `npm run deploy` | Build and restart (quick deployment) |
+
+### PM2 Configuration
+
+The `ecosystem.config.js` file contains the PM2 configuration:
+
+```javascript
+module.exports = {
+  apps: [{
+    name: 'pm2-ui',
+    script: 'server/dist/main.js',
+    instances: 1,
+    exec_mode: 'cluster',
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '500M',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3030,
+      HOST: '0.0.0.0',
+    }
+  }]
+};
+```
+
+You can customize this configuration based on your requirements.
+
+### Quick Deployment Workflow
+
+For rapid deployment after code changes:
+
+```bash
+# Pull latest changes
+git pull
+
+# Build and restart
+npm run deploy
+```
+
+This will build both frontend and backend, then restart the PM2 process.
+
+### Auto-start on System Boot
+
+To ensure PM2 starts on system reboot:
+
+```bash
+# Save the current PM2 process list
+pm2 save
+
+# Generate and configure startup script
+pm2 startup
+```
+
+Follow the instructions printed by the `pm2 startup` command.
+
 ## Docker Support
 
 Build the Docker image:
@@ -236,25 +328,38 @@ pm2-ui/
 
 ## Scripts
 
-### Root Level
+### Development
 
-- `npm run dev` - Run both server and client in development
-- `npm run build` - Build both server and client
-- `npm run start` - Start production server
+- `npm run dev` - Run both server and client in development mode
+- `npm run server:dev` - Run server only in development mode
+- `npm run client:dev` - Run client only in development mode
+
+### Build & Start
+
+- `npm run build` - Build both server and client for production
+- `npm run build:server` - Build server only
+- `npm run build:client` - Build client only
+- `npm run start` - Start production server (without PM2)
+
+### PM2 Management
+
+- `npm run pm2:start` - Start application with PM2
+- `npm run pm2:stop` - Stop PM2 process
+- `npm run pm2:restart` - Restart PM2 process (with downtime)
+- `npm run pm2:reload` - Reload PM2 process (zero-downtime)
+- `npm run pm2:delete` - Remove from PM2
+- `npm run pm2:logs` - View PM2 logs
+- `npm run pm2:monit` - Monitor PM2 processes
+- `npm run deploy` - Build and restart (quick deployment)
+
+### Testing & Quality
+
 - `npm run test` - Run all tests
-- `npm run lint` - Run linters
-
-### Server
-
-- `npm run server:dev` - Run server in development
-- `npm run build:server` - Build server
 - `npm run test:server` - Run server tests
-
-### Client
-
-- `npm run client:dev` - Run client in development
-- `npm run build:client` - Build client
 - `npm run test:client` - Run client tests
+- `npm run lint` - Run all linters
+- `npm run lint:server` - Run server linter
+- `npm run lint:client` - Run client linter
 
 ## Contributing
 
