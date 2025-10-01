@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Get, Request, HttpCode, HttpStatus, Param, Delete, Headers, Logger } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Request, HttpCode, HttpStatus, Param, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { CreateUserDto, LoginDto, UserRole, UserStatus } from '../common/interfaces/user.interface';
@@ -6,16 +6,12 @@ import { Public } from './decorators/public.decorator';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Roles } from './decorators/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
-import { JwtService } from '@nestjs/jwt';
 
 @Controller('api/auth')
 export class AuthController {
-  private readonly logger = new Logger(AuthController.name);
-
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private jwtService: JwtService,
   ) {}
 
   @Public()
@@ -105,44 +101,5 @@ export class AuthController {
   async deleteUser(@Param('id') userId: string) {
     await this.userService.delete(userId);
     return { message: 'User deleted successfully' };
-  }
-
-  @Public()
-  @Post('debug-token')
-  async debugToken(@Headers('authorization') authorization: string) {
-    try {
-      if (!authorization) {
-        return { error: 'No authorization header' };
-      }
-
-      const token = authorization.replace('Bearer ', '');
-
-      // Try to decode without verification first
-      const decoded = this.jwtService.decode(token);
-      this.logger.log(`Token decoded: ${JSON.stringify(decoded)}`);
-
-      // Try to verify with current secret
-      try {
-        const verified = this.jwtService.verify(token);
-        this.logger.log(`Token verified successfully`);
-        return {
-          success: true,
-          decoded,
-          verified,
-          message: 'Token is valid'
-        };
-      } catch (verifyError) {
-        this.logger.error(`Token verification failed: ${verifyError.message}`);
-        return {
-          success: false,
-          decoded,
-          error: verifyError.message,
-          message: 'Token signature is invalid - JWT_SECRET mismatch'
-        };
-      }
-    } catch (error) {
-      this.logger.error(`Debug token error: ${error.message}`);
-      return { error: error.message };
-    }
   }
 }

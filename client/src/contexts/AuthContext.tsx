@@ -46,26 +46,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       (config) => {
         const currentToken = localStorage.getItem('token');
         if (currentToken) {
-          // Ensure headers object exists
           if (!config.headers) {
             config.headers = new AxiosHeaders();
           }
-          // Use array notation to ensure it works
           config.headers['Authorization'] = `Bearer ${currentToken}`;
-          console.log('[Interceptor] Added token to request:', config.url);
-        } else {
-          console.log('[Interceptor] No token in localStorage for request:', config.url);
         }
         return config;
       },
       (error) => Promise.reject(error)
     );
 
-    console.log('[AuthContext] Request interceptor installed');
-
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
-      console.log('[AuthContext] Request interceptor removed');
     };
   }, []);
 
@@ -97,26 +89,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const login = async (username: string, password: string) => {
-    console.log('[AuthContext] Login attempt for:', username);
     const response = await axios.post('/api/auth/login', { username, password });
-    console.log('[AuthContext] Login response:', response.data);
-
     const { access_token, user } = response.data;
 
     if (!access_token) {
-      console.error('[AuthContext] No access_token in response');
       throw new Error('No access token received');
     }
 
-    console.log('[AuthContext] Setting token and user');
     setToken(access_token);
     setUser(user);
     localStorage.setItem('token', access_token);
-    console.log('[AuthContext] Token saved to localStorage:', localStorage.getItem('token') ? 'YES' : 'NO');
-
     axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
     api.setAuthToken(access_token);
-    console.log('[AuthContext] Login complete');
   };
 
   const register = async (data: RegisterData) => {
