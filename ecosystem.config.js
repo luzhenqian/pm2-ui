@@ -3,11 +3,13 @@ module.exports = {
     {
       name: 'pm2-ui',
       script: 'server/dist/main.js',
+      cwd: './',
       instances: 1,
       exec_mode: 'cluster',
       autorestart: true,
       watch: false,
       max_memory_restart: '500M',
+      env_file: './server/.env',
       env: {
         NODE_ENV: 'production',
         PORT: 3030,
